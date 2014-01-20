@@ -28,6 +28,7 @@ class RunCommandHandler(tornado.web.RequestHandler):
         self.render("templates/command.html", log_file=log_file, command=command, result=result)
 
 application = tornado.web.Application([
+    (r"/", UploadHandler), # Use it as index while create index page
     (r"/upload", UploadHandler),
     (r"/command/(.*)", RunCommandHandler),
     ], debug=True)
