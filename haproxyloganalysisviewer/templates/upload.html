@@ -4,17 +4,23 @@
     <h1 id="heading">Upload log file</h1>
     <form action="/upload" method="post" enctype="multipart/form-data">
         
-    Ha proxy file: <input type="file" name="logfile"/>
-    
-    <p><input type="submit" value="Continue &rarr;"></p>
+        Ha proxy file: <input type="file" name="logfile"/>
+        
+        <p><input type="submit" value="Continue &rarr;"></p>
 
-    <h2>Filters</h2>
-
-    <ul>
-        {% for filter in filters %}
-        <li>{{ filter }}</li>
-        {% end %}
-    </ul>
-
+        <fieldset>
+            <legend>Filters</legend>
+            {% for filter in filters %}
+            <p><label for="{{ filter.func_name }}">{{ filter.func_name }}</label>
+                    {% if filter.func_code.co_argcount>=1 %}
+                        {% for cellvar in filter.func_code.co_cellvars %}
+                            {{ cellvar }}: <input name="{{ filter.func_name }}.{{ cellvar }}" type="text" /><br>
+                        {% end %}
+                    {% else %}
+                    <input type="checkbox" name="{{ filter.func_name }}" value="True" />
+                    {% end %}
+            </p>
+            {% end %}
+        <fieldset>
     </form>
 {% end %}
