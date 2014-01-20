@@ -32,6 +32,9 @@ application = tornado.web.Application([
     (r"/command/(.*)", RunCommandHandler),
     ], debug=True)
 
-if __name__ == "__main__":
+def console_script():
     application.listen(8888)
     tornado.ioloop.IOLoop.instance().start()
+
+if __name__ == "__main__":
+    console_script()

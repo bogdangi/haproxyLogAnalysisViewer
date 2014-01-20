@@ -22,7 +22,9 @@ setup(name='haproxyLogAnalysisViewer',
           'haproxy_log_analysis',
           'tornado',
       ],
-      entry_points="""
-      # -*- Entry points: -*-
-      """,
+      entry_points={
+          'console_scripts': [
+              'haproxyLogAnalysisViewer = haproxyLogAnalysisViewer.main:console_script',
+              ],
+          },
       )
