@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Haproxy log analyser</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+
+        <!-- Optional theme --> <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    </head>
+    <body>
+        <div id="header">
+            {% block header %}{% end %}
+        </div>
+        <div class="container bs-docs-container">
+            <div class="container bs-docs-container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h2>Commands</h2>
+                        <ul>
+                            {% for command_name in log_file.__class__.commands() %}
+                            <li><a href="/command/{{ command_name }}">{{ command_name }}</a></li>
+                            {% end %}
+                        </ul>
+                    </div>
+                    <div class="col-md-9" role="main">
+                        <div id="content">
+                            {% block content %}{% end %}
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                <table class="table" border="0">
+                                    <tr><th>Param</th><th>Data</th></tr>
+                                    <tr><td>Valid Lines</td><td>{{ log_file.cmd_counter() }}</td></tr>
+                                    <tr><td>Invalid Lines</td><td>{{ log_file.cmd_counter_invalid() }}</td></tr>
+                                </table>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <table class="table" border="0">
+                                    <tr><th>IP</th><th>Requests</th></tr>
+                                    {% for ip in log_file.cmd_top_ips() %}
+                                    <tr><td>{{ ip[0] }}</td><td>{{ ip[1] }}</td></tr>
+                                    {% end %}
+                                </table>
+                            </div>
+                        </div>
+                        <table class="table" border="0">
+                            <tr><th>Path</th><th>Requests</th></tr>
+                            {% for data in log_file.cmd_top_request_paths() %}
+                            <tr><td>{{ data[0] }}</td><td>{{ data[1] }}</td></tr>
+                            {% end %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="footer">
+                {% block footer %}{% end %}
+                <a href="/upload">Upload new log file</a>
+            </div>
+
+            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+            <script src="//code.jquery.com/jquery.js"></script>
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+            <!-- Latest compiled and minified JavaScript -->
+            <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
+            <script type="text/javascript" charset="utf-8">
+                $("table").tablesorter({ sortList: [[1,0]] }); 
+            </script>
+        </div>
+    </body>
+</html>

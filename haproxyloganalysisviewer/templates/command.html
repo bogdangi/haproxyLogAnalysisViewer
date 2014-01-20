@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>Result of {{ command }}</h2>
+
+    {% if command=='top_ips' %}
+
+    <table class="table table-sorter" id="{{ command }}" border="0">
+        <thead>
+            <tr><th>IP</th><th>Requests</th></tr>
+        </thead>
+        {% for ip in result %}
+        <tr><td>{{ ip[0] }}</td><td>{{ ip[1] }}</td></tr>
+        {% end %}
+    </table>
+
+    {% elif command=='http_methods' %}
+
+    <table class="table table-sorter" id="{{ command }}" border="0">
+        <thead>
+            <tr><th>Method</th><th>Requests</th></tr>
+        </thead>
+        {% for method in result %}
+        <tr><td>{{ method }}</td><td>{{ result[method] }}</td></tr>
+        {% end %}
+    </table>
+
+    {% elif command=='request_path_counter' %}
+
+    <table class="table table-sorter" id="{{ command }}" border="0">
+        <thead>
+            <tr><th>Path</th><th>Requests</th></tr>
+        </thead>
+        {% for data in result %}
+        <tr><td>{{ data }}</td><td>{{ result[data] }}</td></tr>
+        {% end %}
+    </table>
+
+    {% elif command=='ip_counter' %}
+
+    <table class="table table-sorter" id="{{ command }}" border="0">
+        <thead>
+            <tr><th>IP</th><th>Requests</th></tr>
+        </thead>
+        {% for data in result %}
+        <tr><td>{{ data }}</td><td>{{ result[data] }}</td></tr>
+        {% end %}
+    </table>
+
+    {% elif command=='requests_per_minute' %}
+
+    <table class="table table-sorter" id="{{ command }}" border="0">
+        <thead>
+            <tr><th>Date</th><th>Requests</th></tr>
+        </thead>
+        {% for data in result %}
+        <tr><td>{{ data[0] }}</td><td>{{ data[1] }}</td></tr>
+        {% end %}
+    </table>
+
+    {% elif command=='status_codes_counter' %}
+
+    <table class="table table-sorter" id="{{ command }}" border="0">
+        <thead>
+            <tr><th>Status code</th><th>Requests</th></tr>
+        </thead>
+        {% for data in result %}
+        <tr><td>{{ data }}</td><td>{{ result[data] }}</td></tr>
+        {% end %}
+    </table>
+
+    {% elif command=='server_load' %}
+
+    <table class="table table-sorter" id="{{ command }}" border="0">
+        <thead>
+            <tr><th>Name</th><th>Requests</th></tr>
+        </thead>
+        {% for data in result %}
+        <tr><td>{{ data }}</td><td>{{ result[data] }}</td></tr>
+        {% end %}
+    </table>
+
+    {% elif command=='top_request_paths' %}
+
+    <table class="table table-sorter" id="{{ command }}" border="0">
+        <thead>
+            <tr><th>Path</th><th>Requests</th></tr>
+        </thead>
+        {% for data in result %}
+        <tr><td>{{ data[0] }}</td><td>{{ data[1] }}</td></tr>
+        {% end %}
+    </table>
+
+    {% else %}
+        {{ result }}
+    {% end %}
+
+{% end %}
