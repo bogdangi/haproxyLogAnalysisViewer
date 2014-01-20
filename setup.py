@@ -19,6 +19,8 @@ setup(name='haproxyLogAnalysisViewer',
       zip_safe=False,
       install_requires=[
           # -*- Extra requirements: -*-
+          'haproxy_log_analysis',
+          'tornado',
       ],
       entry_points="""
       # -*- Entry points: -*-
