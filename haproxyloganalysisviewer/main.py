@@ -2,6 +2,7 @@ import tornado.ioloop
 import tornado.web
 import tornado.template
 from haproxy.haproxy_logfile import HaproxyLogFile
+from haproxy.main import VALID_FILTERS
 import StringIO
 
 log_file = HaproxyLogFile()
@@ -9,7 +10,7 @@ log_file = HaproxyLogFile()
 class UploadHandler(tornado.web.RequestHandler):
     """ Upload files """
     def get(self):
-        self.render("templates/upload.html", log_file=log_file)
+        self.render("templates/upload.html", log_file=log_file, filters=VALID_FILTERS)
 
     def post(self):
         global log_file

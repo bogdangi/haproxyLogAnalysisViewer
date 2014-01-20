@@ -7,5 +7,14 @@
     Ha proxy file: <input type="file" name="logfile"/>
     
     <p><input type="submit" value="Continue &rarr;"></p>
+
+    <h2>Filters</h2>
+
+    <ul>
+        {% for filter in filters %}
+        <li>{{ filter }}</li>
+        {% end %}
+    </ul>
+
     </form>
 {% end %}
