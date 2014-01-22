@@ -11,8 +11,7 @@ log_file = HaproxyLogFile()
 class UploadHandler(tornado.web.RequestHandler):
     """ Upload files """
     def get(self):
-        filters = [eval('modFilters.filter_' + i) for i in VALID_FILTERS]
-        self.render("templates/upload.html", log_file=log_file, filters=filters)
+        self.render("templates/upload.html", log_file=log_file)
 
     def post(self):
         global log_file
@@ -20,6 +19,16 @@ class UploadHandler(tornado.web.RequestHandler):
             log_file_data = StringIO.StringIO(self.request.files.get('logfile')[0]['body'])
             if log_file_data is not None:
                 log_file.parse_data(log_file_data)
+        self.render("templates/upload.html", log_file=log_file)
+
+class AddFiltersHandler(tornado.web.RequestHandler):
+    """Add filters"""
+    def get(self):
+        filters = [eval('modFilters.filter_' + i) for i in VALID_FILTERS]
+        self.render("templates/add-filters.html", log_file=log_file, filters=filters)
+
+    def post(self):
+        global log_file
         filters = []
         for filter in self.request.arguments.keys():
             if ''.join(self.request.arguments[filter]):
@@ -38,7 +47,7 @@ class UploadHandler(tornado.web.RequestHandler):
                 )
         
         filters = [eval('modFilters.filter_' + i) for i in VALID_FILTERS]
-        self.render("templates/upload.html", log_file=log_file, filters=filters)
+        self.render("templates/add-filters.html", log_file=log_file, filters=filters)
 
 class RunCommandHandler(tornado.web.RequestHandler):
     """ Upload files """
@@ -51,6 +60,7 @@ class RunCommandHandler(tornado.web.RequestHandler):
 application = tornado.web.Application([
     (r"/", UploadHandler), # Use it as index while create index page
     (r"/upload", UploadHandler),
+    (r"/add-filters", AddFiltersHandler),
     (r"/command/(.*)", RunCommandHandler),
     ], debug=True)
 

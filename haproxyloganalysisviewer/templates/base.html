@@ -21,6 +21,25 @@
     <body>
         <div id="header">
             {% block header %}{% end %}
+            <a href="/upload">Upload new log file</a>
+            <a href="/add-filters">Add filters</a>
+            <form action="/add-filter" method="post" enctype="multipart/form-data">
+                <fieldset>
+                    <legend>Filters</legend>
+                    {% for filter in log_file.getAppliedFilters() %}
+                    <p><label for="{{ filter.func_name }}">{{ filter.func_name }}</label>
+                    {% if filter.func_code.co_argcount>=1 %}
+                    {% for cellvar in filter.func_code.co_cellvars %}
+                    {{ cellvar }}: <input name="{{ filter.func_name }}.{{ cellvar }}" type="text" /><br>
+                    {% end %}
+                    {% else %}
+                    <input type="checkbox" name="{{ filter.func_name }}" value="True" />
+                    {% end %}
+                    </p>
+                    {% end %}
+                </fieldset>
+                <p><input type="submit" value="Update filters"></p>
+            </form>
         </div>
         <div class="container bs-docs-container">
             <div class="container bs-docs-container">
@@ -66,7 +85,6 @@
 
             <div id="footer">
                 {% block footer %}{% end %}
-                <a href="/upload">Upload new log file</a>
             </div>
 
             <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

@@ -8,19 +8,5 @@
         
         <p><input type="submit" value="Continue &rarr;"></p>
 
-        <fieldset>
-            <legend>Filters</legend>
-            {% for filter in filters %}
-            <p><label for="{{ filter.func_name }}">{{ filter.func_name }}</label>
-                    {% if filter.func_code.co_argcount>=1 %}
-                        {% for cellvar in filter.func_code.co_cellvars %}
-                            {{ cellvar }}: <input name="{{ filter.func_name }}.{{ cellvar }}" type="text" /><br>
-                        {% end %}
-                    {% else %}
-                    <input type="checkbox" name="{{ filter.func_name }}" value="True" />
-                    {% end %}
-            </p>
-            {% end %}
-        <fieldset>
     </form>
 {% end %}
