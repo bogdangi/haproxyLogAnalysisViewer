@@ -93,8 +93,11 @@
             <!-- Latest compiled and minified JavaScript -->
             <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
             <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
+            <script src="http://code.highcharts.com/highcharts.js"></script>
+            <script src="http://code.highcharts.com/modules/exporting.js"></script>
             <script type="text/javascript" charset="utf-8">
                 $("table").tablesorter({ sortList: [[1,0]] }); 
+                $('#pie-chart-container').highcharts(pieData);
             </script>
         </div>
     </body>
