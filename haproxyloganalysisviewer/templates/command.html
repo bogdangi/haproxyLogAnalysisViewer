@@ -6,6 +6,8 @@
 
     {% if command=='top_ips' %}
 
+    {% include "charts/top_pie.html" %}
+
     <table class="table table-sorter" id="{{ command }}" border="0">
         <thead>
             <tr><th>IP</th><th>Requests</th></tr>
@@ -17,6 +19,8 @@
 
     {% elif command=='http_methods' %}
 
+    {% include "charts/pie.html" %}
+
     <table class="table table-sorter" id="{{ command }}" border="0">
         <thead>
             <tr><th>Method</th><th>Requests</th></tr>
@@ -25,47 +29,6 @@
         <tr><td>{{ method }}</td><td>{{ result[method] }}</td></tr>
         {% end %}
     </table>
-
-    <div id="pie-chart-container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-
-    <script>
-
-        var pieData = {
-                    chart: {
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false
-                    },
-                    title: {
-                        text: 'Requests methods'
-                    },
-                    tooltip: {
-                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                color: '#000000',
-                                connectorColor: '#000000',
-                                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                            }
-                        }
-                    },
-                    series: [{
-                        type: 'pie',
-                        name: 'Browser share',
-                        data: [
-                            {% for method in result %}
-                            ['{{ method }}',   {{ result[method] }}],
-                            {% end %}
-                        ]
-                    }]
-                };
-
-    </script>
 
     {% elif command=='request_path_counter' %}
 
@@ -102,6 +65,8 @@
 
     {% elif command=='status_codes_counter' %}
 
+    {% include "charts/pie.html" %}
+
     <table class="table table-sorter" id="{{ command }}" border="0">
         <thead>
             <tr><th>Status code</th><th>Requests</th></tr>
@@ -113,6 +78,8 @@
 
     {% elif command=='server_load' %}
 
+    {% include "charts/pie.html" %}
+
     <table class="table table-sorter" id="{{ command }}" border="0">
         <thead>
             <tr><th>Name</th><th>Requests</th></tr>
@@ -122,47 +89,9 @@
         {% end %}
     </table>
 
-    <div id="pie-chart-container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-
-    <script>
-
-        var pieData = {
-                    chart: {
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false
-                    },
-                    title: {
-                        text: 'Server loads'
-                    },
-                    tooltip: {
-                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                color: '#000000',
-                                connectorColor: '#000000',
-                                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                            }
-                        }
-                    },
-                    series: [{
-                        type: 'pie',
-                        name: 'Browser share',
-                        data: [
-                            {% for data in result %}
-                            ['{{ data }}',   {{ result[data] }}],
-                            {% end %}
-                        ]
-                    }]
-                };
-
-    </script>
     {% elif command=='top_request_paths' %}
+
+    {% include "charts/top_pie.html" %}
 
     <table class="table table-sorter" id="{{ command }}" border="0">
         <thead>
