@@ -54,14 +54,85 @@
 
     {% elif command=='requests_per_minute' %}
 
+    <div id="pie-chart-container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
     <table class="table table-sorter" id="{{ command }}" border="0">
         <thead>
             <tr><th>Date</th><th>Requests</th></tr>
         </thead>
-        {% for data in result %}
+        {% for data in sorted(result, key=lambda x: x[0]) %}
         <tr><td>{{ data[0] }}</td><td>{{ data[1] }}</td></tr>
         {% end %}
     </table>
+
+    <script> 
+        var pieData = {
+            chart: {
+                zoomType: 'x',
+                spacingRight: 20
+            },
+            title: {
+                text: 'Requests per minutes'
+            },
+            subtitle: {
+                text: document.ontouchstart === undefined ?
+                'Click and drag in the plot area to zoom in' :
+                'Pinch the chart to zoom in'
+            },
+            xAxis: {
+                type: 'datetime',
+                maxZoom: 60000, // fourteen days
+                title: {
+                    text: null
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Requests'
+                }
+            },
+            tooltip: {
+                shared: true
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                        stops: [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                    lineWidth: 1,
+                    marker: {
+                        enabled: false
+                    },
+                    shadow: false,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            },
+
+            series: [{
+                type: 'area',
+                name: 'requests',
+                pointInterval: 60 * 1000,
+                pointStart: Date.UTC({{ result[0][0].year }}, {{ result[0][0].month -1 }} , {{ result[0][0].day }}, {{ result[0][0].hour }}, {{ result[0][0].minute }}),
+                data: [
+                {% for data in sorted(result, key=lambda x: x[0]) %}
+                {{ data[1] }},
+                {% end %}
+                ]
+            }]
+        }
+    </script>
 
     {% elif command=='status_codes_counter' %}
 
